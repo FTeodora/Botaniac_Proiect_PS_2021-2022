@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: forums-service
+  datasource:
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/forums
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+      open-in-view: 'true'
+server:
+  port: 8422

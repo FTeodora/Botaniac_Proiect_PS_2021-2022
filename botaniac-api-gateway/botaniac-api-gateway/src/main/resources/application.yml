@@ -1,0 +1,19 @@
+server:
+  port: 8420
+
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: accounts
+        uri: http://localhost:8421/
+        predicates:
+        - Path=/accounts/**
+      - id: forums
+        uri: http://localhost:8422/
+        predicates:
+        - Path=/forums/**
+      - id: plants
+        uri: http://localhost:8423/
+        predicates:
+        - Path=/plants/**

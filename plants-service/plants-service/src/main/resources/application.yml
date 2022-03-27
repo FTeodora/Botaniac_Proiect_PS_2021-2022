@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: plants-service
+  datasource:
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/plants
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+      open-in-view: 'true'
+server:
+  port: 8423
