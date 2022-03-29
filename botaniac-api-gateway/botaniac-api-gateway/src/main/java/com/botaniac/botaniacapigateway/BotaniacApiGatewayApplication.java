@@ -20,11 +20,18 @@ public class BotaniacApiGatewayApplication {
 	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
 		logger.info("Routing the gateway...");
 		return builder.routes()
+				.route("homepage",p -> p.path("/Homepage/**")
+						.uri("http://localhost:8419/"))
 				.route("accounts",p -> p.path("/accounts/**")
-						.uri("http://localhost:8421/")
-						)
+						.uri("http://localhost:8421/"))
 				.route("forums",p -> p.path("/forums/**")
 						.uri("http://localhost:8422/"))
+				.route("forumsSections",p -> p.path("/forumsSections/**")
+						.uri("http://localhost:8422/"))
+				.route("section",p -> p.path("/section/**").
+						filters(f -> f.addRequestParameter("forumSection", "sectionId"))
+						.uri("http://localhost:8422/")
+				)
 				.route("plants",p -> p.path("/plants/**")
 						.uri("http://localhost:8423/")).
 				build();

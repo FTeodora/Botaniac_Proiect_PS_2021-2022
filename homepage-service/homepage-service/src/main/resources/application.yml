@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: homepage-service
+server:
+  port: 8419
+
