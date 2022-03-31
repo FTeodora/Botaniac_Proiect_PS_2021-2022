@@ -24,14 +24,22 @@ public class BotaniacApiGatewayApplication {
 						.uri("http://localhost:8419/"))
 				.route("accounts",p -> p.path("/accounts/**")
 						.uri("http://localhost:8421/"))
+				.route("register",p -> p.path("/Register/**")
+						.uri("http://localhost:8421/"))
 				.route("forums",p -> p.path("/forums/**")
 						.uri("http://localhost:8422/"))
 				.route("forumsSections",p -> p.path("/forumsSections/**")
 						.uri("http://localhost:8422/"))
 				.route("section",p -> p.path("/section/**").
 						filters(f -> f.addRequestParameter("forumSection", "sectionId"))
-						.uri("http://localhost:8422/")
-				)
+						.uri("http://localhost:8422/"))
+				.route("sectionDiscussions",p -> p.path("/sectionDiscussions/**").
+						filters(f -> f.addRequestParameter("section", "sectionId"))
+						.uri("http://localhost:8422/"))
+				.route("sectionDiscussions",p -> p.path("/sectionDiscussions/**").
+						filters(f -> f.addRequestParameter("section", "sectionId").
+								addRequestParameter("page", "pageNumber"))
+						.uri("http://localhost:8422/"))
 				.route("plants",p -> p.path("/plants/**")
 						.uri("http://localhost:8423/")).
 				build();

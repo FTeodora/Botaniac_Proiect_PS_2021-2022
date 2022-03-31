@@ -13,6 +13,10 @@ spring:
         uri: http://localhost:8421/
         predicates:
         - Path=/accounts/**
+      - id: register
+        uri: http://localhost:8421/
+        predicates:
+        - Path=/Register/**
       - id: forums
         uri: http://localhost:8422/
         predicates:
@@ -27,6 +31,19 @@ spring:
         - Path=/section/**
         filters:
         - AddRequestParameter=forumSection, sectionId
+      - id: sectionDiscussions
+        uri: http://localhost:8422/
+        predicates:
+        - Path=/sectionDiscussions/**
+        filters:
+        - AddRequestParameter=section, sectionId
+      - id: sectionDiscussions
+        uri: http://localhost:8422/
+        predicates:
+        - Path=/sectionDiscussions/**
+        filters:
+        - AddRequestParameter=section, sectionId
+        - AddRequestParameter=page, pageNumber
       - id: plants
         uri: http://localhost:8423/
         predicates:

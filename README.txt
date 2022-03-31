@@ -1,4 +1,9 @@
-What's new:
+Patch Notes:
+
+V 0.2
+Moved the javascript that fetches the forum sections in its separate folder
+
+V 0.1
 Now you have a homepage from which you can select the microservice you want to access
 How to start: 
 1. Make sure you create the plants and the forums database in your PostgreSQL. The mysql one has the createDatabaseIfNotExists flag

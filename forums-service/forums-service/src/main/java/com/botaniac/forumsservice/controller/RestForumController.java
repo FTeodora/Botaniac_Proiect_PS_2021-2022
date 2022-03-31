@@ -1,11 +1,11 @@
 package com.botaniac.forumsservice.controller;
 
+import com.botaniac.forumsservice.DTO.BrowseDiscussionsDTO;
+import com.botaniac.forumsservice.model.entity.Discussion;
 import com.botaniac.forumsservice.model.enums.ForumSection;
 import com.botaniac.forumsservice.service.DiscussionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,10 +19,9 @@ import java.util.List;
 @RestController
 public class RestForumController {
     DiscussionService discussionService;
-    Logger logger= LoggerFactory.getLogger(RestForumController.class);
     @RequestMapping(value = "/forumsSections",method = RequestMethod.GET)
     public String showSections(){
-        logger.info("Fetching the forum sections...");
+        log.info("Fetching the forum sections...");
         List<ForumSection> sections= Arrays.asList(ForumSection.values());
         try{
             ObjectMapper mapper = new ObjectMapper();
@@ -33,14 +32,24 @@ public class RestForumController {
     }
     @RequestMapping(value = "/sectionDiscussions",method = RequestMethod.GET)
     public String showDiscussions(@RequestParam ForumSection section){
-        logger.info("Fetching the "+section.getDisplayName()+" discussions...");
-        List<ForumSection> sections= Arrays.asList(ForumSection.values());
+        log.info("Fetching the "+section.getDisplayName()+" discussions...");
         try{
             ObjectMapper mapper = new ObjectMapper();
             return mapper.writeValueAsString(discussionService.browseDiscussions(section));
         }catch (IOException exception){
             return "Error creating JSON for discussions";
         }
+    }
+    @RequestMapping(value = "/sectionDiscussions",method = RequestMethod.GET)
+    public String showDiscussions(@RequestParam ForumSection section,@RequestParam int page){
+        log.info("Getting discussions from section "+section+" at page "+page);
+        try{
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.writeValueAsString(discussionService.browseDiscussions(section,page));
+        }catch (IOException exception){
+            return "Error creating JSON for discussions page "+page;
+        }
+
     }
 }
 
