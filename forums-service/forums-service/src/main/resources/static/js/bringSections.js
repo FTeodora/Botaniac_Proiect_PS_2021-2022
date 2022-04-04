@@ -4,7 +4,7 @@ document.getElementsByTagName('head')[0].appendChild(script);
 window.onload= ev=>{
 function createSectionDiv(forumSection){
     var anch=document.createElement('a');
-    anch.setAttribute('href',"/section?forumSection="+forumSection.name);
+    anch.setAttribute('href',"/forums/section?forumSection="+forumSection.name);
     var section = document.createElement('div');
     section.innerText=forumSection.displayName;
 
@@ -19,7 +19,7 @@ function createSectionDiv(forumSection){
 
     $.ajax({
         type: "GET",
-        url: 'forumsSections',
+        url: 'forums/forumsSections',
     success: function(json_string) {
     var list = JSON.parse(json_string);
        list.forEach((i)=>createSectionDiv(i));

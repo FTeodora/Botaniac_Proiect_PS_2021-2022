@@ -1,18 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://localhost:8419/css/styles.css" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>First web app</title>
 </head>
 <body>
-<div>
-<h1>Hello there buddy</h1>
-    <h2>And welcome to the greatest abomination ever known to mankind</h2>
-    <a href="http://localhost:8420/Register"><button>Register</button></a>
-    <a href="http://localhost:8420/forums"><button>Forums</button></a>
-    <a href="http://localhost:8420/plants"><button>Plants</button></a>
+<div id="app">
+    <v-app>
+        <site-navbar></site-navbar>
+        <v-main>
+            <v-container>
+                <h1>Hello there buddy</h1>
+                <h2>And welcome to our work in project gardening site</h2>
+            </v-container>
+        </v-main>
+    </v-app>
 </div>
+<script src="https://unpkg.com/http-vue-loader"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script>
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      components: {
+          'site-navbar': httpVueLoader('/components/site-navbar.vue')
+        }
+    })
+  </script>
 </body>
+
 </html>

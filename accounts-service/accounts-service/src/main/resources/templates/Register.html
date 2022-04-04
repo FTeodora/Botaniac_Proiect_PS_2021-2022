@@ -1,19 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="http://localhost:8419/css/styles.css" />
+    <link rel="stylesheet" href="http://localhost:8421/css/style.css" />
+    <title>Create Account</title>
 </head>
-<body>
-<h1>Create an account and join our community</h1>
-<h2>By creating an account you can fully enjoy our many features, such as posting messages and forum discussions, saving and sharing your plants and even buying and selling in our store</h2>
-<form method="post">
-    <input type="text" name="username"> <br>
-    <input type="password" name="password"><br>
-    <input type="password" name="confirm password"><br>
-    <input type="text" name="e-mail"><br>
-    <input type="date" name="birthday"><br>
-    <input type="button" onsubmit="submitFunction">
-</form>
+<body style="background-color:#757f49;">
+    <div id="app">
+        <v-app>
+            <v-main>
+                <site-navbar></site-navbar>
+                <div class="page-content">
+                    <h1>Create an account and join our community</h1>
+                    <h2>By creating an account you can fully enjoy our many features, such as posting messages and forum discussions, saving and sharing your plants and even buying and selling in our store</h2>
+                    <div class="form-div">
+                        <form method="post" class="form-zone" action="#" th:action="@{/Register}" th:object="${newUser}" >
+                            <label for="username" class="form-label">Username(*):</label><br>
+                            <input type="text" name="username" class="form-field" th:field="*{username}"  required> <br>
+                            <label for="e-mail" class="form-label">E-mail(*):</label><br>
+                            <input type="text" name="e-mail" class="form-field" th:field="*{email}"  required><br>
+                            <label for="password" class="form-label">Password(*):</label><br>
+                            <input type="password" name="password" class="form-field" th:field="*{password}"  required><br>
+                            <label for="password2" class="form-label">Confirm password(*):</label><br>
+                            <input type="password" name="password2" class="form-field" th:field="*{confirmPassword}"  required><br>
+                            <label for="birthday" class="form-label">Birthday(*):</label><br>
+                            <input type="date" name="birthday" class="form-field" th:field="*{birthday}"><br>
+                            <input type="submit" value="Submit" class="form-button">
+                            <input type="reset" value="Clear" class="form-button" >
+                        </form>
+                    </div>
+                </div>
+            </v-main>
+        </v-app>
+    </div>
+    <script src="https://unpkg.com/http-vue-loader"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script>
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      components: {
+          'site-navbar': httpVueLoader('/components/site-navbar.vue')
+        }
+    })
+  </script>
 </body>
 </html>

@@ -1,9 +1,18 @@
 Patch Notes:
+V 0.12
+Now the homepage-service also hosts common css files and vue components
+Added some color to the User Register page
+Added a navbar for every page
+Simplified the api gateway
+Field validations for the register page in the backend
+Working on:
+Bringing constraint validations in the actual html fields
+Formatting forum discussions
 
-V 0.2
+V 0.11
 Moved the javascript that fetches the forum sections in its separate folder
 
-V 0.1
+V 0.10
 Now you have a homepage from which you can select the microservice you want to access
 How to start: 
 1. Make sure you create the plants and the forums database in your PostgreSQL. The mysql one has the createDatabaseIfNotExists flag

@@ -9,6 +9,10 @@ spring:
         uri: http://localhost:8419/
         predicates:
         - Path=/Homepage/**
+      - id: components
+        uri: http://localhost:8419/
+        predicates:
+        - Path=/components/**
       - id: accounts
         uri: http://localhost:8421/
         predicates:
@@ -21,29 +25,6 @@ spring:
         uri: http://localhost:8422/
         predicates:
         - Path=/forums/**
-      - id: forumsSections
-        uri: http://localhost:8422/
-        predicates:
-        - Path=/forumsSections/**
-      - id: section
-        uri: http://localhost:8422/
-        predicates:
-        - Path=/section/**
-        filters:
-        - AddRequestParameter=forumSection, sectionId
-      - id: sectionDiscussions
-        uri: http://localhost:8422/
-        predicates:
-        - Path=/sectionDiscussions/**
-        filters:
-        - AddRequestParameter=section, sectionId
-      - id: sectionDiscussions
-        uri: http://localhost:8422/
-        predicates:
-        - Path=/sectionDiscussions/**
-        filters:
-        - AddRequestParameter=section, sectionId
-        - AddRequestParameter=page, pageNumber
       - id: plants
         uri: http://localhost:8423/
         predicates:

@@ -1,23 +1,23 @@
 package com.botaniac.forumsservice.model.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
 @Builder
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Message {
     @Id
     @Column(name="message_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     @Column(columnDefinition = "TEXT")
     private String content;
     @ManyToOne
@@ -25,5 +25,5 @@ public class Message {
     private Discussion parentDiscussion;
     @Column
     @CreationTimestamp
-    private Date datePosted;
+    private LocalDateTime datePosted;
 }

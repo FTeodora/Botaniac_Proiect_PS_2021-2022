@@ -14,3 +14,8 @@
 .forum-sections-div:hover{ 
 	background-color: #e2b553;
 }
+.discussion-div{
+    background-color: #495635;
+    font-family:'Courier New', Courier, monospace;
+    padding: 10px;
+}

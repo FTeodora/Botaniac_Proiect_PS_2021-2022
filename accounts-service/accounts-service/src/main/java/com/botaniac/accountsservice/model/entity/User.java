@@ -3,6 +3,7 @@ package com.botaniac.accountsservice.model.entity;
 import com.botaniac.accountsservice.model.enums.UserRole;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Table(name="user")
 @Builder
 @Getter
+@Setter
 public class User {
 
     @Id
@@ -30,7 +32,7 @@ public class User {
     @Column(unique = true,nullable = false,name = "e_mail")
     private String email;
     @Column(nullable = false,columnDefinition = "varchar(255)")
-    private char[] password;
+    private String password;
     @Column(nullable = false)
     private UserRole role;
     @Column(nullable = false)

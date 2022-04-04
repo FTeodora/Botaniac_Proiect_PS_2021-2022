@@ -14,4 +14,5 @@ public class RestUserController {
         log.info("I have visited accounts");
         return "Hello from accounts";
     }
+
 }

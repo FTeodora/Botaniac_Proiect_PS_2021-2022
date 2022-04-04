@@ -1,20 +1,17 @@
 package com.botaniac.forumsservice.DTO;
 
-import com.botaniac.forumsservice.model.enums.ForumSection;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.*;
 
-import javax.persistence.Column;
-import java.util.Date;
+import java.time.LocalDateTime;
 
-@Builder
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class BrowseDiscussionsDTO {
-    private long discussionId;
+    private Long discussionId;
     private String title;
-    private boolean isLocked;
-    private Date dateAdded;
+    private Boolean isLocked;
+    private LocalDateTime dateAdded;
 }

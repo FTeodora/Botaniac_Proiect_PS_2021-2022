@@ -16,11 +16,12 @@ public class MVCForumController {
         log.info("Getting Forum Sections page...");
         return new WebMvcProperties.View();
     }
-    @GetMapping("/section")
+    @GetMapping("/forums/section")
     public ModelAndView browseSection(@RequestParam ForumSection forumSection){
         log.info("Fetching "+forumSection+" section page... ");
         ModelAndView mav=new ModelAndView();
         mav.addObject("section",forumSection.getDisplayName());
+        mav.addObject("sectionType",forumSection.toString());
         return mav;
     }
 }
