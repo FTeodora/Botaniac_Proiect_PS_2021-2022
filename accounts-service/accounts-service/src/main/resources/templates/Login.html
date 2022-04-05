@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://localhost:8419/css/styles.css" />
+    <link rel="stylesheet" href="http://localhost:8421/css/style.css" />
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <v-app>
+        <v-main>
+            <site-navbar></site-navbar>
+        <div class="form-div">
+    <form method="post" class="form-zone" action="#" th:action="@{/Login}" th:object="${credentials}" >
+        <label for="username" class="form-label">Username(*):</label><br>
+        <input type="text" name="username" class="form-field" th:field="*{username}"  required> <br>
+        <div  th:if="${#fields.hasErrors('${credentials.username}')}" th:errors="*{username}"></div>
+        <label for="password" class="form-label">Password(*):</label><br>
+        <input type="password" name="password" class="form-field" th:field="*{password}"  required><br>
+        <input type="submit" value="Log in" class="form-button">
+    </form>
+</div>
+<div>Don't have an account? Why not just <a href="/Register">register</a></div>
+</v-main>
+</v-app>
+</div>
+<script src="https://unpkg.com/http-vue-loader"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script>
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      components: {
+          'site-navbar': httpVueLoader('/components/site-navbar.vue')
+        }
+    })
+  </script>
+</body>
+</html>

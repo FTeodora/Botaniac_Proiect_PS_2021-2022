@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DiscussionRepository extends JpaRepository<Discussion,Long> {
     Page<Discussion> findBySection(ForumSection section, Pageable page);
+    Page<Discussion> findByTitle(String title,Pageable pageable);
 }

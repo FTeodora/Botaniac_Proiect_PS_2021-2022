@@ -9,4 +9,7 @@ import javax.transaction.Transactional;
 @Repository
 @Transactional
 public interface UserRepo extends JpaRepository<User, String> {
+    boolean existsByEmail(String email);
+    boolean existsByUsername(String username);
+    boolean existsByUsernameAndPassword(String username,String password);
 }

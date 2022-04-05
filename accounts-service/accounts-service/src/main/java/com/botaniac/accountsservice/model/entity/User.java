@@ -1,9 +1,7 @@
 package com.botaniac.accountsservice.model.entity;
 
 import com.botaniac.accountsservice.model.enums.UserRole;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -14,9 +12,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name="user")
-@Builder
+@Builder(toBuilder=true)
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id

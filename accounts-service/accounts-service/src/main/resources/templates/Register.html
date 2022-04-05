@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="http://localhost:8421/css/style.css" />
     <title>Create Account</title>
 </head>
-<body style="background-color:#757f49;">
+<body >
     <div id="app">
         <v-app>
             <v-main>
@@ -21,14 +21,16 @@
                         <form method="post" class="form-zone" action="#" th:action="@{/Register}" th:object="${newUser}" >
                             <label for="username" class="form-label">Username(*):</label><br>
                             <input type="text" name="username" class="form-field" th:field="*{username}"  required> <br>
+                            <div  th:if="${#fields.hasErrors('${newUser.username}')}" th:errors="*{username}"></div>
                             <label for="e-mail" class="form-label">E-mail(*):</label><br>
                             <input type="text" name="e-mail" class="form-field" th:field="*{email}"  required><br>
+                            <div  th:if="${#fields.hasErrors('${newUser.email}')}" th:errors="*{email}" class="error-label"></div>
                             <label for="password" class="form-label">Password(*):</label><br>
                             <input type="password" name="password" class="form-field" th:field="*{password}"  required><br>
-                            <label for="password2" class="form-label">Confirm password(*):</label><br>
-                            <input type="password" name="password2" class="form-field" th:field="*{confirmPassword}"  required><br>
+                            <div  th:if="${#fields.hasErrors('${newUser.password}')}" th:errors="*{password}" class="error-label"></div>
                             <label for="birthday" class="form-label">Birthday(*):</label><br>
                             <input type="date" name="birthday" class="form-field" th:field="*{birthday}"><br>
+                            <div  th:if="${#fields.hasErrors('${newUser.birthday}')}" th:errors="*{birthday}" class="error-label"></div>
                             <input type="submit" value="Submit" class="form-button">
                             <input type="reset" value="Clear" class="form-button" >
                         </form>

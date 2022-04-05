@@ -9,7 +9,7 @@
                 <a href="/plants"><button class="navbar-btn" >Plants</button></a>
                 <button class="navbar-btn">Shop</button>
                 <a href="/forums"><button class="navbar-btn">Forums</button></a>
-                <a href="/Register"><button class="navbar-btn">Register</button></a>
+                <a href="/Login"><button class="navbar-btn">Log in</button></a>
             </v-toolbar-items>
         </v-app-bar>
 </v-card>

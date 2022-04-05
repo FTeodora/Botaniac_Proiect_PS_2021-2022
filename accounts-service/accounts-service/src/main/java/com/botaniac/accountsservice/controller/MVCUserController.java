@@ -1,13 +1,19 @@
 package com.botaniac.accountsservice.controller;
 
+import com.botaniac.accountsservice.dto.LoginDTO;
 import com.botaniac.accountsservice.dto.RegisterDTO;
 import com.botaniac.accountsservice.service.UserService;
+import com.sun.net.httpserver.HttpContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -22,9 +28,35 @@ public class MVCUserController {
         return mav;
     }
     @PostMapping("/Register")
-    public String submitUser(@ModelAttribute("newUser") RegisterDTO newUser){
+    public String submitUser(@Valid @ModelAttribute("newUser") RegisterDTO newUser, BindingResult result){
         log.info("Register info submitted. Creating account for user "+newUser.getUsername()+"...");
-        userService.registerAccount(newUser);
-        return "Register";
+        if(!result.hasErrors()){
+            log.info("No errors found! Creating account");
+            userService.registerAccount(newUser);
+            return "/Login";
+        }
+        log.error("The user you want to insert doesn't have valid data");
+        result.getAllErrors().forEach(x->log.warn(x.toString()));
+        return "/Register";
+    }
+    @GetMapping("/Login")
+    public ModelAndView login(){
+        ModelAndView mav= new ModelAndView();
+        mav.addObject("credentials",new LoginDTO());
+        return mav;
+    }
+    @PostMapping("/Login")
+    public String login(@Valid @ModelAttribute("credentials")LoginDTO credentials, BindingResult result){
+        if(userService.logIn(credentials))
+            return "redirect:/Welcome?username="+credentials.getUsername();
+        else
+            return "/Login";
+    }
+    @GetMapping("/Welcome")
+    public ModelAndView getHomepageForUser(@RequestParam String username){
+        log.info("Getting the homepage for user "+username+" ...");
+        ModelAndView mav=new ModelAndView();
+        mav.addObject("username",username);
+        return mav;
     }
 }
