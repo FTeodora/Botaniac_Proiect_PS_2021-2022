@@ -14,14 +14,14 @@ import java.util.List;
 @Table
 @Getter
 @Setter
-@Builder
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class Discussion {
     @Id
     @Column(name="discussion_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long discussionId;
+    private Long id;
     @Column
     private String title;
     @Column
@@ -34,6 +34,8 @@ public class Discussion {
     @Column
     @CreationTimestamp
     private LocalDateTime dateAdded;
+    @Column
+    private String author;
     @OneToMany(mappedBy = "parentDiscussion",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Message> messages;
 }

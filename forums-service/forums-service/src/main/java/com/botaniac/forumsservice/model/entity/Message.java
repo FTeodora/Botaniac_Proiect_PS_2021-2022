@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,6 +18,8 @@ public class Message {
     @Column(name="message_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column
+    private String poster;
     @Column(columnDefinition = "TEXT")
     private String content;
     @ManyToOne

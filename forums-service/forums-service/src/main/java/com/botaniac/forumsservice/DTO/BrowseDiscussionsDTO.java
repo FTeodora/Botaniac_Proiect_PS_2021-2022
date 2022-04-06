@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -17,11 +18,16 @@ public class BrowseDiscussionsDTO {
     @Getter(AccessLevel.NONE)
     @Autowired
     private ModelMapper modelMapper=new ModelMapper();
-    private Long discussionId;
+    private Long id;
     private String title;
     private Boolean isLocked;
+    @Getter(AccessLevel.NONE)
     private LocalDateTime dateAdded;
     public Discussion toDiscussion(){
         return modelMapper.map(this,Discussion.class);
+    }
+    public String getDateAdded(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
+        return this.dateAdded.format(formatter);
     }
 }

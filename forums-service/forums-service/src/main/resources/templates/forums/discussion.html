@@ -6,31 +6,35 @@
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
     <link rel="stylesheet" href="http://localhost:8419/css/styles.css" />
     <meta charset="UTF-8">
-    <title th:text="${section}"></title>
+    <title th:text="${discussion.title}"></title>
 </head>
 <body>
 <div id="app">
     <v-app>
         <v-main>
-        <site-navbar></site-navbar>
-            <h1 th:text="${section}"></h1>
+            <site-navbar></site-navbar>
+
             <v-container color="#757f49">
+                <h1 th:text="${discussion.title}"></h1>
+                <div th:text="${discussion.textContent}"></div>
+                <div class="discussion-div" v-for="item in items">
+                    {{ item.content }}
+                    {{ item.datePosted }}
+                </div>
                 <div id="discussionsPages">
                     <v-pagination
                             v-model="page"
                             :length="allPages"
                             :total-visible="4"
                             @input="onChange"></v-pagination>
-                    <div v-if="allPages>0">
-                        <div class="discussion-div" v-for="item in items">
-                            <a :href="`/forums/discussion?discussionID=${item.id}`">
-                                {{ item.title }}
-                            </a>
-                            {{ item.dateAdded }}
-                        </div>
-                    </div>
-                    <h1 v-else>There are no discussions in this section at the moment</h1>
                 </div>
+                <form method="post" class="form-zone" action="#" th:action="@{/forums/discussion}" th:object="${newMessage}" >
+                    <label for="message" class="form-label">Your message:</label><br>
+                    <textarea type="textarea" rows="6" cols="80" name="message" class="form-field" th:field="*{content}"></textarea><br>
+                    <div  th:if="${#fields.hasErrors('${newMessage.content}')}" th:errors="*{content}" class="error-label"></div>
+                    <input type="hidden" th:field="*{parentDiscussion}" value="0">
+                    <input type="submit" value="Post" class="form-button">
+                </form>
             </v-container>
         </v-main>
     </v-app>
@@ -42,7 +46,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script th:inline="javascript">
 var data = {
-        items: [],
+        items: [[${messages}]],
         page: 1,
         allPages:[[${totalPages}]]
     };
@@ -57,14 +61,10 @@ var data = {
         methods: {
             onChange: function(value) {
                 this.page = value;
-                axios.get('/forums/sectionDiscussions',{ params: { section: [[${sectionType}]] ,page:this.page} })
+                axios.get('/forums/discussion',{ params: { discussionID:[[${discussion.id}]] ,page:this.page} })
           .then(response => (this.items = response.data))
             }
-        },
-        beforeMount() {
-        this.onChange(1);
-         }
-
+        }
     })
 
   </script>

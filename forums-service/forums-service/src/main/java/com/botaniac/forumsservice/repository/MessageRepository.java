@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message,Long> {
-    Page<Message> findByDiscussion(Discussion discussion, Pageable page);
+    Page<Message> findByParentDiscussion(Discussion discussion, Pageable page);
 }

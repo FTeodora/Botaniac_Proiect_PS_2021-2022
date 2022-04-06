@@ -3,6 +3,7 @@ package com.botaniac.accountsservice.controller;
 import com.botaniac.accountsservice.dto.LoginDTO;
 import com.botaniac.accountsservice.dto.RegisterDTO;
 import com.botaniac.accountsservice.service.UserService;
+import com.botaniac.accountsservice.service.ValidationHandler;
 import com.sun.net.httpserver.HttpContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class MVCUserController {
             return "/Login";
         }
         log.error("The user you want to insert doesn't have valid data");
+        ValidationHandler handler=new ValidationHandler();
+        handler.showErrors(newUser);
         result.getAllErrors().forEach(x->log.warn(x.toString()));
         return "/Register";
     }
@@ -48,7 +51,7 @@ public class MVCUserController {
     @PostMapping("/Login")
     public String login(@Valid @ModelAttribute("credentials")LoginDTO credentials, BindingResult result){
         if(userService.logIn(credentials))
-            return "redirect:/Welcome?username="+credentials.getUsername();
+            return "/Welcome?username="+credentials.getUsername();
         else
             return "/Login";
     }
