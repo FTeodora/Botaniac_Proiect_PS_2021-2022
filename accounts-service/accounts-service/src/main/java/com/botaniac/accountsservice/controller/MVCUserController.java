@@ -34,7 +34,7 @@ public class MVCUserController {
         if(!result.hasErrors()){
             log.info("No errors found! Creating account");
             userService.registerAccount(newUser);
-            return "/Login";
+            return "redirect:http://localhost:8420/Login";
         }
         log.error("The user you want to insert doesn't have valid data");
         ValidationHandler handler=new ValidationHandler();

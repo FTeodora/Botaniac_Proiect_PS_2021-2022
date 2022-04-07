@@ -45,8 +45,7 @@ public class RestForumController {
     @RequestMapping(value = "/forums/sectionDiscussions",method = RequestMethod.GET)
     public List<BrowseDiscussionsDTO> showDiscussions(@RequestParam ForumSection section, @RequestParam int page){
         log.info("Getting discussions from section "+section+" at page "+page);
-        List<BrowseDiscussionsDTO> pages=discussionService.browseDiscussions(section,page-1);
-        return pages;
+        return discussionService.browseDiscussions(section,page-1);
     }
 
     @RequestMapping(value = "/forums/getDiscussionMessages")
