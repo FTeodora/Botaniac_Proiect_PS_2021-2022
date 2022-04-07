@@ -3,6 +3,7 @@ package com.botaniac.forumsservice.controller.mvc;
 import com.botaniac.forumsservice.DTO.MessageDTO;
 import com.botaniac.forumsservice.DTO.NewMessageDTO;
 import com.botaniac.forumsservice.DTO.OriginalPostDTO;
+import com.botaniac.forumsservice.model.entity.Discussion;
 import com.botaniac.forumsservice.service.DiscussionService;
 import com.botaniac.forumsservice.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,30 +34,36 @@ public class MVCDiscussionController {
         if(discussion!=null)
         {
             log.info("Found discussion "+discussionID);
-            Page<MessageDTO> message=messageService.getDiscussionMessagesByPage(discussionID,0);
+            Discussion discussion1=discussionService.getDiscussion(discussionID);
+            Page<MessageDTO> message=messageService.getDiscussionMessagesByPage(discussion1,0);
+            log.info("Sending discussion to template...");
             mav.addObject("discussion",discussion);
+            log.info("Sending the total number of pages to template...");
             mav.addObject("totalPages",message.getTotalPages());
-            mav.addObject("messages",message.getContent());
-            mav.addObject("newMessage",new NewMessageDTO());
+            NewMessageDTO newMessageDTO=new NewMessageDTO();
+            newMessageDTO.setParent(discussionID);
+            mav.addObject("newMessage",newMessageDTO);
         }
         else{
             log.error("Couldn't find discussion "+discussionID);
         }
         return mav;
     }
-    @RequestMapping(value = "forums/discussion",method = RequestMethod.POST,params = "discussionID")
-    public String getDiscussionMessages(@RequestParam Long discussionID,
+    @RequestMapping(value = "forums/discussion",method = RequestMethod.POST)
+    public String getDiscussionMessages(
                                         @Valid @ModelAttribute("newMessage") NewMessageDTO newMessage,
                                         BindingResult result){
-        log.info("Checking message "+newMessage.getContent()+" posted in topic "+discussionID);
+        log.info("Checking message "+newMessage.getContent()+" posted in topic "+newMessage.getParent());
         if(!result.hasErrors())
         {
-            log.info("Message has no errors. Posting...");
-            messageService.postNewMessage(discussionID,newMessage);
+            log.info("Message has no errors. Posting in section"+newMessage.getParent()+"...");
+            Discussion parent=discussionService.getDiscussion(newMessage.getParent());
+            messageService.postNewMessage(parent,newMessage);
         }
         else{
             log.error("Couldn't post message "+newMessage.getContent());
+            result.getAllErrors().forEach(x->log.error(x.getDefaultMessage()));
         }
-        return "forums/discussion?discussionID="+discussionID;
+        return "redirect:http://localhost:8420/forums/discussion?discussionID="+newMessage.getParent();
     }
 }

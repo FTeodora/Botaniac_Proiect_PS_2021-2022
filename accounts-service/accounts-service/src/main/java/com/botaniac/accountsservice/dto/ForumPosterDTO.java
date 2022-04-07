@@ -2,28 +2,18 @@ package com.botaniac.accountsservice.dto;
 
 import com.botaniac.accountsservice.model.entity.User;
 import com.botaniac.accountsservice.model.enums.UserRole;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class ForumPosterDTO {
-    private String userName;
+    private String username;
     private UserRole role;
     public ForumPosterDTO(User user){
         this.role=user.getRole();
-        this.userName=user.getUsername();
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
+        this.username=user.getUsername();
     }
 }

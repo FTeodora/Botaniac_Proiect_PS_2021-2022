@@ -21,11 +21,7 @@ public class NewMessageDTO {
     @Size(min=5,message = "Message must have at least 5 characters")
     private String content;
     private String poster;
-    @Getter(AccessLevel.NONE)
-    private Long parentDiscussion;
-    public Discussion getParentDiscussion(){
-        return Discussion.builder().id(parentDiscussion).build();
-    }
+    private Long parent;
     public Message toMessage(){
         return modelMapper.map(this,Message.class);
     }

@@ -10,11 +10,11 @@ spring:
         predicates:
         - Path=/Homepage/**
       - id: welcome
-        uri: http://localhost:8421/
+        uri: http://localhost:8419/
         predicates:
         - Path=/Welcome/**
         filters:
-        - AddRequestParameter=username, user
+        - AddRequestParameter=username,user
       - id: components
         uri: http://localhost:8419/
         predicates:

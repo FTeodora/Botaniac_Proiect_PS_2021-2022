@@ -25,9 +25,9 @@ public class RegisterDTO {
     private ModelMapper modelMapper=new ModelMapper();
     @NotBlank(message="Please pick an username")
     @Size(min=5, max=20,message = "Username must have between 5 and 20 characters")
-    @UniqueUsername
+    //@UniqueUsername
     private String username;
-    @UniqueMail
+   // @UniqueMail
     @NotBlank(message = "e-mail field is mandatory")
     @Pattern(regexp="^[^0-9]+[0-9]*([.|-|_][\\w]+)*@[\\w]+(-[\\w]+)*[.][\\w]+", message="Please provide a valid email address")
     private String email;

@@ -8,14 +8,13 @@ import com.botaniac.forumsservice.service.MessageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,6 +25,11 @@ public class RestForumController {
     private final DiscussionService discussionService=new DiscussionService();
     @Autowired
     private final MessageService messageService=new MessageService();
+    @RequestMapping(value = "/forums/",method = RequestMethod.GET)
+    public String sayHello(){
+        log.info("Going to the forums...");
+        return "Hello from the forums";
+    }
     @RequestMapping(value = "/forums/forumsSections",method = RequestMethod.GET)
     public String showSections(){
         log.info("Fetching the forum sections...");
@@ -45,9 +49,18 @@ public class RestForumController {
         return pages;
     }
 
-    @RequestMapping(value = "/forums/discussion",method = RequestMethod.GET,params = "{action=discussionID,action=page}")
+    @RequestMapping(value = "/forums/getDiscussionMessages")
     public List<MessageDTO> getDiscussionMessages(@RequestParam Long discussionID,@RequestParam int page){
-        return messageService.getDiscussionMessages(discussionID,page);
+        log.info("Getting messages for discussion "+discussionID+" at page "+page);
+        log.info("Getting parent discussion...");
+        Discussion parent=discussionService.getDiscussion(discussionID);
+        if(parent==null){
+            log.error("Couldn't get parent discussion");
+            return new ArrayList<>();
+        }
+        List<MessageDTO> res=messageService.getDiscussionMessages(parent,page-1);
+        log.info("Fetched "+res.size()+" results");
+        return res;
     }
 }
 

@@ -7,6 +7,7 @@ import com.botaniac.accountsservice.factories.UserFactory;
 import com.botaniac.accountsservice.model.entity.User;
 import com.botaniac.accountsservice.repository.UserRepo;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +15,35 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UserService {
     @Autowired
-    private UserRepo userRepo;
+    UserRepo userRepo;
+    @Autowired
+    private ModelMapper modelMapper=new ModelMapper();
     private ValidationHandler validationHandler=new ValidationHandler();
-    public ForumPosterDTO getUserUsername(String id){
-        return new ForumPosterDTO(userRepo.findById(id).get());
-    }
+
+    /**
+     * Searches for the user with the given username and password
+     * @param credentials
+     * @return
+     */
     public boolean logIn(LoginDTO credentials){
         log.info("Logging in as user "+credentials.getUsername());
         return userRepo.existsByUsernameAndPassword(credentials.getUsername(),credentials.getPassword());
     }
+
+    /**
+     * Useful for getting user data in the forums-service
+     * @param id
+     * @return
+     */
+    public ForumPosterDTO getForumPosterInfo(String id){
+        User u=userRepo.findById(id).get();
+        return new ForumPosterDTO(u);
+    }
+
+    /**
+     * Registers an account with valid data. Validation is done via java constraints
+     * @param account
+     */
     public void registerAccount(RegisterDTO account){
         log.info("Registering "+account.getUsername()+" ...");
         User newAccount=UserFactory.createDefaultUser(account);

@@ -1,0 +1,10 @@
+com.botaniac.forumsservice
+com.botaniac.forumsservice.configurations
+com.botaniac.forumsservice.controller.mvc
+com.botaniac.forumsservice.controller.rest
+com.botaniac.forumsservice.DTO
+com.botaniac.forumsservice.factories
+com.botaniac.forumsservice.model.entity
+com.botaniac.forumsservice.model.enums
+com.botaniac.forumsservice.repository
+com.botaniac.forumsservice.service

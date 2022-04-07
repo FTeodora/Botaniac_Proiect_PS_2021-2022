@@ -1,0 +1,10 @@
+com.botaniac.accountsservice
+com.botaniac.accountsservice.configurations
+com.botaniac.accountsservice.controller
+com.botaniac.accountsservice.dto
+com.botaniac.accountsservice.factories
+com.botaniac.accountsservice.model.entity
+com.botaniac.accountsservice.model.enums
+com.botaniac.accountsservice.repository
+com.botaniac.accountsservice.service
+com.botaniac.accountsservice.validators

@@ -51,15 +51,8 @@ public class MVCUserController {
     @PostMapping("/Login")
     public String login(@Valid @ModelAttribute("credentials")LoginDTO credentials, BindingResult result){
         if(userService.logIn(credentials))
-            return "/Welcome?username="+credentials.getUsername();
+            return "redirect:http://localhost:8420/Welcome?username="+credentials.getUsername();
         else
             return "/Login";
-    }
-    @GetMapping("/Welcome")
-    public ModelAndView getHomepageForUser(@RequestParam String username){
-        log.info("Getting the homepage for user "+username+" ...");
-        ModelAndView mav=new ModelAndView();
-        mav.addObject("username",username);
-        return mav;
     }
 }

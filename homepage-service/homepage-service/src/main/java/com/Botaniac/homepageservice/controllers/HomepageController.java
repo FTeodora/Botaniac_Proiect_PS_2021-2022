@@ -15,5 +15,11 @@ public class HomepageController {
         log.info("Getting the homepage...");
         return new WebMvcProperties.View();
     }
-
+    @GetMapping("/Welcome")
+    public ModelAndView getHomepageForUser(@RequestParam String username){
+        log.info("Getting the homepage for user "+username+" ...");
+        ModelAndView mav=new ModelAndView();
+        mav.addObject("username",username);
+        return mav;
+    }
 }

@@ -16,8 +16,8 @@ public class MessageDTO {
     private String poster;
     @Getter(AccessLevel.NONE)
     private LocalDateTime datePosted;
-    public LocalDateTime getDatePosted(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy at HH:mm");
-        return LocalDateTime.parse(this.datePosted.toString(), formatter);
+    public String getDatePosted(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
+        return this.datePosted.format(formatter);
     }
 }

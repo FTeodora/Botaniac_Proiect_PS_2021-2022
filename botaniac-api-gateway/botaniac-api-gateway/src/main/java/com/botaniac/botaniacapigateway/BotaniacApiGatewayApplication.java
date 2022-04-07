@@ -9,6 +9,9 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * The API Gateway. It routes the microservices to a single port.
+ */
 @Slf4j
 @SpringBootApplication
 public class BotaniacApiGatewayApplication {
@@ -24,7 +27,7 @@ public class BotaniacApiGatewayApplication {
 						.uri("http://localhost:8419/"))
 				.route("welcome",p -> p.path("/Welcome/**").
 						filters(f -> f.addRequestParameter("username", "user"))
-						.uri("http://localhost:8421/"))
+						.uri("http://localhost:8419/"))
 				.route("components",p -> p.path("/components/**")
 						.uri("http://localhost:8419/"))
 				.route("accounts",p -> p.path("/accounts/**")

@@ -11,7 +11,7 @@ import org.modelmapper.ModelMapper;
 @Setter
 @NoArgsConstructor
 public class LoginDTO {
-    @UserExists
+   // @UserExists
     private String username;
     private String password;
 }

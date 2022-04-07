@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"com.botaniac.botaniacapigateway","l":"BotaniacApiGatewayApplication"},{"p":"com.botaniac.botaniacapigateway","l":"GatewayController"}];updateSearchResults();
