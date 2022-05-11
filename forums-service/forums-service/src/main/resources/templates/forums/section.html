@@ -22,12 +22,14 @@
                             :total-visible="4"
                             @input="onChange"></v-pagination>
                     <div v-if="allPages>0">
-                        <div class="discussion-div" v-for="item in items">
+                        <v-card-text class="discussion-div"
+                                     outlined
+                                     v-for="item in items">
                             <a :href="`/forums/discussion?discussionID=${item.id}`">
                                 {{ item.title }}
                             </a>
                             {{ item.dateAdded }}
-                        </div>
+                        </v-card-text>
                     </div>
                     <h1 v-else>There are no discussions in this section at the moment</h1>
                 </div>

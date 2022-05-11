@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://localhost:8419/css/styles.css" />
+    <meta charset="UTF-8">
+    <title >Plants info</title>
+</head>
+<body>
+<div id="app">
+    <v-app>
+        <v-main>
+            <site-navbar></site-navbar>
+
+            <v-container color="#757f49">
+                <h1> You can </h1>
+                <a class="syleless-anchor" href="/plants/create_plant_form"><v-btn>upload a plant with form </v-btn></a>
+                <a class="syleless-anchor" href="/plants/create_plant_csv"><v-btn>upload multiple plants by csv </v-btn></a>
+                <br>
+                <div id="discussionsPages">
+                    <v-pagination
+                            v-model="page"
+                            :length="allPages"
+                            :total-visible="4"
+                            @input="onChange"></v-pagination>
+                </div>
+                <div  v-for="item in items">
+                        <v-card-text>{{item.commonName}}: {{item.scientificName}}</v-card-text>
+                </div>
+            </v-container>
+        </v-main>
+    </v-app>
+</div>
+
+<script src="https://unpkg.com/http-vue-loader"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script th:inline="javascript">
+var data = {
+        items: [],
+        authors:[],
+        page: 1,
+        allPages:[[${totalPages}]]
+    };
+
+    new Vue({
+      data: data,
+      el: '#app',
+      vuetify: new Vuetify(),
+      components: {
+          'site-navbar': httpVueLoader('/components/site-navbar.vue'),
+        },
+        methods: {
+            onChange: function(value) {
+                this.page = value;
+                this.items=[]
+                axios.get('/plants/getPlants',{ params: { page:this.page} })
+          .then(response =>  this.items =response.data)
+
+          }
+        },
+        beforeMount(){
+        this.onChange(1);
+        }
+    })
+
+  </script>
+</body>
+</html>

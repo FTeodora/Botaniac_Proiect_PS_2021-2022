@@ -18,5 +18,13 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 server:
   port: 8421
+myqueue:
+  rabbitmq:
+    queue: forums-queue

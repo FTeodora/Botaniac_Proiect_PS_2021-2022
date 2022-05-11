@@ -1,11 +1,16 @@
-package com.botaniac.accountsservice.controller;
+package com.botaniac.accountsservice.controller.mvc;
 
+import com.botaniac.accountsservice.configurations.EmailQueue;
 import com.botaniac.accountsservice.dto.LoginDTO;
 import com.botaniac.accountsservice.dto.RegisterDTO;
+import com.botaniac.accountsservice.factories.MailFactory;
 import com.botaniac.accountsservice.service.UserService;
 import com.botaniac.accountsservice.service.ValidationHandler;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +25,9 @@ import javax.validation.Valid;
 @Controller
 public class MVCUserController {
     @Autowired
-    private UserService userService=new UserService();
+    private RabbitTemplate rabbitTemplate;
+    @Autowired
+    private UserService userService;
     @GetMapping("/Register")
     public ModelAndView bringRegisterPage(){
         log.info("Getting the register page...");
@@ -33,7 +40,11 @@ public class MVCUserController {
         log.info("Register info submitted. Creating account for user "+newUser.getUsername()+"...");
         if(!result.hasErrors()){
             log.info("No errors found! Creating account");
-            userService.registerAccount(newUser);
+           // userService.registerAccount(newUser);
+            ObjectMapper mapper = new ObjectMapper();
+               rabbitTemplate.convertAndSend(EmailQueue.EXCHANGE,EmailQueue.ROUTING_KEY,
+                      MailFactory.sendRegistrationMail(newUser.getEmail(), newUser.getUsername()));
+
             return "redirect:http://localhost:8420/Login";
         }
         log.error("The user you want to insert doesn't have valid data");

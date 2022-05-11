@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: email-service
+  mail:
+    host: smtp.mailtrap.io
+    username: 3c10682d7e2735
+    password: 6916b0e7e68dcb
+    port: '2525'
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+server:
+  port: 8418
+myqueue:
+  rabbitmq:
+    queue: email-queue

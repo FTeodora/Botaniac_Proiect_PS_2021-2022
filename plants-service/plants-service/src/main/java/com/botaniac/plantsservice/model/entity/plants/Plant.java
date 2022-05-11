@@ -1,16 +1,21 @@
 package com.botaniac.plantsservice.model.entity.plants;
 
 import com.botaniac.plantsservice.model.entity.plantProgress.PersonalPlantProgress;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import com.botaniac.plantsservice.model.enums.PlantType;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 @Table(name="plant")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Plant {
     @Id
     @Column(name="plant_id")
@@ -20,8 +25,6 @@ public class Plant {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     private String id;
-    @Column(nullable = false)
-    private String family;
     @Column(nullable = false,unique = true)
     private String scientificName;
     @Column

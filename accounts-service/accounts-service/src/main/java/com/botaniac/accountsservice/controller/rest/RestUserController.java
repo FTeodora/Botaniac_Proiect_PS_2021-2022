@@ -1,9 +1,10 @@
-package com.botaniac.accountsservice.controller;
+package com.botaniac.accountsservice.controller.rest;
 
 import com.botaniac.accountsservice.dto.ForumPosterDTO;
 import com.botaniac.accountsservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ public class RestUserController {
         return "Hello from accounts";
     }
     @GetMapping("/accounts/retrieve")
-    public ForumPosterDTO getPosterInfo(@RequestParam String userID){
+    public ResponseEntity<ForumPosterDTO> getPosterInfo(@RequestParam String userID){
         log.info("Getting the user with id "+userID);
         ForumPosterDTO poster= userService.getForumPosterInfo(userID);
         if(poster==null){
@@ -27,6 +28,6 @@ public class RestUserController {
         }else{
             log.info("Found user: "+poster.getUsername());
         }
-        return poster;
+        return ResponseEntity.ok(poster);
     }
 }

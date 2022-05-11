@@ -23,6 +23,8 @@ public class BotaniacApiGatewayApplication {
 	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
 		logger.info("Routing the gateway...");
 		return builder.routes()
+				.route("email",p -> p.path("/mail/**")
+						.uri("http://localhost:8418/"))
 				.route("homepage",p -> p.path("/Homepage/**")
 						.uri("http://localhost:8419/"))
 				.route("welcome",p -> p.path("/Welcome/**").

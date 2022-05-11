@@ -25,10 +25,12 @@
                             :total-visible="4"
                             @input="onChange"></v-pagination>
                 </div>
-                <div  v-for="item in items">
+                <v-card-text
+                        outlined
+                        v-for="item in items">
 
                     {{item.datePosted}}: {{item.content}}
-                </div>
+                </v-card-text>
                 <br>
                 <form method="post" class="form-zone" action="#" th:action="@{/forums/discussion}" th:object="${newMessage}" >
                     <label for="message" class="form-label">Your message:</label><br>

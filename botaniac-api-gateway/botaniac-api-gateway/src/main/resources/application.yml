@@ -39,3 +39,7 @@ spring:
         uri: http://localhost:8423/
         predicates:
         - Path=/plants/**
+      - id: email
+        uri: http://localhost:8418/
+        predicates:
+        - Path=/mail/**

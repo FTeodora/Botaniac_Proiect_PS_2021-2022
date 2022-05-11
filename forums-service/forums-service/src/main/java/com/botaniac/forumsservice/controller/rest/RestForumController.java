@@ -1,12 +1,14 @@
 package com.botaniac.forumsservice.controller.rest;
 import com.botaniac.forumsservice.DTO.BrowseDiscussionsDTO;
 import com.botaniac.forumsservice.DTO.MessageDTO;
+import com.botaniac.forumsservice.configurations.RMQConfig;
 import com.botaniac.forumsservice.model.entity.Discussion;
 import com.botaniac.forumsservice.model.enums.ForumSection;
 import com.botaniac.forumsservice.service.DiscussionService;
 import com.botaniac.forumsservice.service.MessageService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -25,10 +28,12 @@ public class RestForumController {
     private final DiscussionService discussionService=new DiscussionService();
     @Autowired
     private final MessageService messageService=new MessageService();
-    @RequestMapping(value = "/forums/",method = RequestMethod.GET)
-    public String sayHello(){
-        log.info("Going to the forums...");
-        return "Hello from the forums";
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+    @RequestMapping(value = "/forums/rabbitTest")
+    public String vibeCheck(){
+        rabbitTemplate.convertAndSend(RMQConfig.topicExchangeName,RMQConfig.ROUTING_KEY,"Vibe Check");
+        return "Your vibe has been checked";
     }
     @RequestMapping(value = "/forums/forumsSections",method = RequestMethod.GET)
     public String showSections(){
@@ -58,6 +63,7 @@ public class RestForumController {
             return new ArrayList<>();
         }
         List<MessageDTO> res=messageService.getDiscussionMessages(parent,page-1);
+        rabbitTemplate.convertAndSend(RMQConfig.topicExchangeName,RMQConfig.ROUTING_KEY,res.stream().map(m->m.getPoster()).collect(Collectors.toList()));
         log.info("Fetched "+res.size()+" results");
         return res;
     }

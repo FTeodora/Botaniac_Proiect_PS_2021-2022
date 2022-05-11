@@ -1,0 +1,22 @@
+.plant-options-div{
+    font-size: 40px;
+    font-family:'Courier New', Courier, monospace;
+    color:#495635;
+    background-color: #909f43;
+    padding: 27px;
+    border-radius: 5px;
+    max-width: 860px;
+    min-height: 150px;
+}
+.section-anchor{
+    text-decoration: none;
+}
+.plant-options-div:hover{
+	background-color: #e2b553;
+}
+.plant-div{
+    background-color: #495635;
+    color:#909f43;
+    font-family:'Courier New', Courier, monospace;
+    padding: 10px;
+}

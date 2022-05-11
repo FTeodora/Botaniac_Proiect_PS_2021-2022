@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://localhost:8419/css/styles.css" />
+    <link rel="stylesheet" href="http://localhost:8423/css/style.css" />
+    <title>Add a plant</title>
+</head>
+<body >
+<div id="app">
+    <v-app>
+        <v-main>
+            <site-navbar></site-navbar>
+            <div >
+                <h1>Create an account and join our community</h1>
+                <h2>By creating an account you can fully enjoy our many features, such as posting messages and forum discussions, saving and sharing your plants and even buying and selling in our store</h2>
+                <div class="form-div">
+                    <form method="post" class="form-zone" action="#" th:action="@{/plants/savePlant}" th:object="${newPlant}" >
+                        <label for="commonName" class="form-label">Common name*:</label><br>
+                        <input type="text" name="commonName" class="form-field" th:field="*{commonName}"  required> <br>
+                        <div  th:if="${#fields.hasErrors('${newPlant.commonName}')}" th:errors="*{commonName}"></div>
+                        <label for="scientificName" class="form-label">Scientific name*:</label><br>
+                        <input type="text" name="scientificName" class="form-field" th:field="*{scientificName}"  required><br>
+                        <div  th:if="${#fields.hasErrors('${newPlant.scientificName}')}" th:errors="*{email}" class="error-label"></div>
+                        <label for="description" class="form-label">Description:</label><br>
+                        <textarea type="textarea" rows="6" cols="80" name="description" class="form-field" th:field="*{description}"></textarea><br>
+                        <label for="plantType" class="form-label"></label>
+                        <input type="text" name="scientificName" class="form-field" th:field="*{scientificName}" ><br>
+                        <div  th:if="${#fields.hasErrors('${newPlant.scientificName}')}" th:errors="*{scientificName}" class="error-label"></div>
+
+                        <input type="submit" value="Submit" class="form-button">
+                        <input type="reset" value="Clear" class="form-button" >
+                    </form>
+
+                </div>
+            </div>
+        </v-main>
+    </v-app>
+</div>
+<script src="https://unpkg.com/http-vue-loader"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script>
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      components: {
+          'site-navbar': httpVueLoader('/components/site-navbar.vue')
+        }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<h1>Welcome to the fun zone, %name%!</h1>
+<h2>We're happy to welcome you to our beautiful gardening site</h2>
+<p> There are just so many things you can do here. For instance:
+<ul>
+<li><a href="http://localhost:8420/plants/">Check some plants</a></li>
+<li><a href="http://localhost:8420/forums/">Chat on our forums</a></li>
+<ul>
+</p>
+</body>
+</html>

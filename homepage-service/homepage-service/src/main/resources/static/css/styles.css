@@ -55,6 +55,21 @@
     background-color: #757f49;
     color: #2d4221;
 }
+.drop-div{
+    width:500px;
+    height:500px;
+    padding:30px;
+    margin:50px;
+    background-color:bisque;
+    color: #2d4221;
+    border-style: dashed;
+    border-radius: 10px;
+    border-width: 2px;
+}
+.drop-div:highlight{
+    background-color:#757f49;
+
+}
 .error-label{
 color:#ff0000;
 }

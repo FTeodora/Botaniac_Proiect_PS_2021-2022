@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://localhost:8419/css/styles.css" />
+    <link rel="stylesheet" href="http://localhost:8423/css/style.css" />
+    <title>Add a plant</title>
+</head>
+<body >
+<div id="app">
+    <v-app>
+        <v-main>
+            <site-navbar></site-navbar>
+        </v-main>
+    </v-app>
+</div>
+<div>
+    <h2>Upload a csv containing the fields common_name,description,native_continent,scientific_name,type</h2>
+    <div id="drop-area" class="drop-div">
+        Select one csv file to upload
+    </div>
+    <div id="created-plants"></div>
+</div>
+<script>
+let dropArea=document.getElementById('drop-area');
+;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, preventDefaults, false)
+})
+
+function preventDefaults (e) {
+  e.preventDefault()
+  e.stopPropagation()
+}
+;['dragenter', 'dragover'].forEach(eventName => {
+  dropArea.addEventListener(eventName, highlight, false)
+})
+dropArea.addEventListener('dragleave', unhighlight, false)
+
+function highlight(e) {
+dropArea.classList.add('highlight')
+  dropArea.innerText='Drop file to process'
+}
+
+function unhighlight(e) {
+  dropArea.classList.remove('highlight')
+  dropArea.innerText='Select one csv file to upload'
+}
+function handleFile(e){
+    dropArea.classList.remove('highlight')
+    let dt = e.dataTransfer;
+    let files = dt.files;
+    let file=files.item(0);
+    let formData = new FormData()
+
+  formData.append('file', file)
+
+  fetch('/plants/uploadPlants', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => { response.json() })
+  .then(response=> {console.log(response); console.log(response.generated)}) .catch((error) => { console.log(error.message); })
+
+}
+dropArea.addEventListener('drop',handleFile,false)
+function previewPlants(){
+    let plant=document.getElementById('created-plants')
+     plant.innerHTML="";
+    this.items.forEach(item=>{
+    var section = document.createElement('div');
+    section.innerText=forumSection.displayName;
+    section.classList.add("plant-div");
+    var brek = document.createElement('br');
+    plant.appendChild(section);
+    plant.appendChild(brek);
+    })
+}
+</script>
+<script src="https://unpkg.com/http-vue-loader"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script>
+ var data = {
+        items: []
+    };
+
+    new Vue({
+      data: data,
+      el: '#app',
+      vuetify: new Vuetify(),
+      components: {
+          'site-navbar': httpVueLoader('/components/site-navbar.vue'),
+        }
+    })
+  </script>
+</body>
+</html>
