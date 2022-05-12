@@ -22,9 +22,9 @@ public class PlantManagementController {
         return "Hello from plants service";
     }
     @RequestMapping(value = "/plants/getPlants",method = RequestMethod.GET)
-    public List<ViewPlantDTO> showDiscussions(@RequestParam int page){
+    public List<ViewPlantDTO> showPlants(@RequestParam int page){
         log.info("Getting plants from page "+page);
-        return plantService.browsePlants(page-1);
+        return plantService.browsePlants(page-1).getContent();
     }
 
 }

@@ -1,9 +1,12 @@
 package com.botaniac.plantsservice.model.entity.plants;
 
 import com.botaniac.plantsservice.model.entity.plantProgress.PersonalPlantProgress;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import com.botaniac.plantsservice.model.enums.PlantType;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -14,6 +17,7 @@ import java.util.Locale;
 @Entity
 @Table(name="plant")
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Plant {
@@ -29,7 +33,7 @@ public class Plant {
     private String scientificName;
     @Column
     private String commonName;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String description;
     @Column(nullable = false)
     private String nativeContinent;
@@ -39,4 +43,6 @@ public class Plant {
     private PlantRequirements requirements;
     @OneToMany(mappedBy = "plant",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<PersonalPlantProgress> personalPlantProgressList;
+
+
 }

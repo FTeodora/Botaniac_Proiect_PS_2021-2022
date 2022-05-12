@@ -27,7 +27,8 @@
                             @input="onChange"></v-pagination>
                 </div>
                 <div  v-for="item in items">
-                        <v-card-text>{{item.commonName}}: {{item.scientificName}}</v-card-text>
+                        <v-card-text  >{{item.commonName}}: {{item.scientificName}}
+                            <v-btn :href="'/plants/plant_page?plantID='+item.id">view</v-btn></v-card-text>
                 </div>
             </v-container>
         </v-main>

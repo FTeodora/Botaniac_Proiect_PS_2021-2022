@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://localhost:8419/css/styles.css" />
+    <link rel="stylesheet" href="http://localhost:8423/css/style.css" />
+    <title th:text="${plant.commonName}">Title</title>
+</head>
+<body>
+<div id="app">
+    <v-app>
+        <v-main>
+            <site-navbar></site-navbar>
+            <div>
+                <i><h1 th:text="${plant.scientificName}"></h1></i>
+                <h2 th:text="${plant.commonName}"></h2>
+                <p th:text="${plant.description}"></p>
+                <form method="get"  action="#" th:action="@{/plants/generateTxt}" th:object="${plant}" >
+                    <input type="hidden" name="commonName" value="${plant.commonName}" th:field="*{commonName}">
+                    <input type="hidden" name="scientificName" value="${plant.scientificName}" th:field="*{scientificName}">
+                    <input type="hidden" name="nativeContinent" value="${plant.nativeContinent}" th:field="*{nativeContinent}">
+                    <input type="hidden" name="description" value="${plant.description}" th:field="*{description}">
+                    <input type="hidden" name="type" value="${plant.type}" th:field="*{type}">
+                    <input type="hidden" name="requirements" value="${plant.requirements}" th:field="*{requirements}">
+                    <select name="File format:" id="fileType" th:field="*{fileType}" >
+                        <option value="TXT">txt/plain text</option>
+                        <option value="PDF">pdf</option>
+                    </select>
+                <input class="form-button" type="submit">Download txt</input></form>
+            </div>
+        </v-main>
+
+    </v-app>
+</div>
+<script>
+function handleFile(){
+  fetch('/plants/generateTxt', {
+    method: 'GET',
+    body: {
+    plant:[[${plant}]]
+    }
+  })
+  .then(response =>  response.json() )
+  .then(response => {  console.log(response);}) .catch((error) => { console.log(error.message); })
+
+}
+</script>
+<script src="https://unpkg.com/http-vue-loader"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script>
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      components: {
+          'site-navbar': httpVueLoader('/components/site-navbar.vue'),
+        }
+    })
+  </script>
+</body>
+</html>

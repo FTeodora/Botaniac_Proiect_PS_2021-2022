@@ -28,3 +28,7 @@ server:
 myqueue:
   rabbitmq:
     queue: forums-queue
+mytoken:
+  hardcoded:
+    beloved:
+      token: 52489tyr8weg7wg743

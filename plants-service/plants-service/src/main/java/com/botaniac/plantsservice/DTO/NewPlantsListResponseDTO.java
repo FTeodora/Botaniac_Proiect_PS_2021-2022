@@ -14,5 +14,5 @@ import java.util.List;
 @NoArgsConstructor
 public class NewPlantsListResponseDTO {
     private String message;
-    List<Plant> generated;
+    List<CreatePlantDTO> generated;
 }

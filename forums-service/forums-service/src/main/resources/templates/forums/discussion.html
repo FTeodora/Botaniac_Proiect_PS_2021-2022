@@ -29,7 +29,7 @@
                         outlined
                         v-for="item in items">
 
-                    {{item.datePosted}}: {{item.content}}
+                    {{item.posterName}} at {{item.datePosted}}: {{item.content}}
                 </v-card-text>
                 <br>
                 <form method="post" class="form-zone" action="#" th:action="@{/forums/discussion}" th:object="${newMessage}" >

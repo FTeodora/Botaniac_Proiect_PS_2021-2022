@@ -14,15 +14,19 @@
     <v-app>
         <v-main>
             <site-navbar></site-navbar>
+            <div>
+                <h2>Upload a csv containing the fields common name,description,native continent,scientific name,type in this order with a header</h2>
+                <div id="created-plants"></div>
+            </div>
         </v-main>
+
     </v-app>
 </div>
-<div>
-    <h2>Upload a csv containing the fields common_name,description,native_continent,scientific_name,type</h2>
-    <div id="drop-area" class="drop-div">
-        Select one csv file to upload
-    </div>
-    <div id="created-plants"></div>
+<form action = "saveAllPlants" method = "post" >
+    <button class="form-button">Submit</button>
+    <form>
+<div id="drop-area" class="drop-div">
+    Select one csv file to upload
 </div>
 <script>
 let dropArea=document.getElementById('drop-area');
@@ -61,17 +65,17 @@ function handleFile(e){
     method: 'POST',
     body: formData
   })
-  .then(response => { response.json() })
-  .then(response=> {console.log(response); console.log(response.generated)}) .catch((error) => { console.log(error.message); })
-
+  .then(response =>  response.json() )
+  .then(response => {  previewPlants(response.generated);}) .catch((error) => { console.log(error.message); })
 }
 dropArea.addEventListener('drop',handleFile,false)
-function previewPlants(){
+function previewPlants(items){
     let plant=document.getElementById('created-plants')
      plant.innerHTML="";
-    this.items.forEach(item=>{
+     console.log(items);
+    items.forEach(item=>{
     var section = document.createElement('div');
-    section.innerText=forumSection.displayName;
+    section.innerText=item.commonName+" "+item.scientificName+":"+item.type;
     section.classList.add("plant-div");
     var brek = document.createElement('br');
     plant.appendChild(section);
@@ -83,12 +87,7 @@ function previewPlants(){
 <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
 <script>
- var data = {
-        items: []
-    };
-
     new Vue({
-      data: data,
       el: '#app',
       vuetify: new Vuetify(),
       components: {

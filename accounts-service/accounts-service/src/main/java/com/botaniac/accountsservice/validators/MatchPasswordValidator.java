@@ -1,10 +1,12 @@
 package com.botaniac.accountsservice.validators;
 
 import com.botaniac.accountsservice.dto.RegisterDTO;
+import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+@Component
 public class MatchPasswordValidator implements ConstraintValidator<MatchPassword, RegisterDTO> {
     @Override
     public void initialize(MatchPassword constraintAnnotation) {

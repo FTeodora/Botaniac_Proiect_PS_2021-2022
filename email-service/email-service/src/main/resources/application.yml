@@ -16,3 +16,7 @@ server:
 myqueue:
   rabbitmq:
     queue: email-queue
+mytoken:
+  hardcoded:
+    beloved:
+      token: 52489tyr8weg7wg743

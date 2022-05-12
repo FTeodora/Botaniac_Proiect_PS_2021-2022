@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
+<img src="https://i.imgur.com/oe35Xx3.png/logo.png">
 <h1>Welcome to the fun zone, %name%!</h1>
 <h2>We're happy to welcome you to our beautiful gardening site</h2>
 <p> There are just so many things you can do here. For instance:

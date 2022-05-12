@@ -7,6 +7,7 @@ import com.botaniac.plantsservice.model.entity.plants.Plant;
 import com.botaniac.plantsservice.service.plantsService.PlantService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ import java.util.List;
 public class CreatePlantController {
     @Autowired
     private PlantService plantService=new PlantService();
-    List<Plant> csvPlants=null;
+    List<CreatePlantDTO> csvPlants=null;
     @PostMapping("/plants/uploadPlants")
     public ResponseEntity<NewPlantsListResponseDTO> uploadFile(@RequestParam("file") MultipartFile file) {
         log.info("Received file "+file.getOriginalFilename());
@@ -56,5 +57,12 @@ public class CreatePlantController {
         log.error("The data you're attempting to insert is invalid");
         result.getAllErrors().forEach(x->log.warn(x.toString()));
         return "/plants/create_plant_form";
+    }
+    @PostMapping("/plants/saveAllPlants")
+    public ResponseEntity<String> submitPlants(){
+        if(this.csvPlants==null||this.csvPlants.size()==0)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please add at least a plant");
+        plantService.addPlants(this.csvPlants);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).header(HttpHeaders.LOCATION, "/plants/plant_types").body("Plants added");
     }
 }

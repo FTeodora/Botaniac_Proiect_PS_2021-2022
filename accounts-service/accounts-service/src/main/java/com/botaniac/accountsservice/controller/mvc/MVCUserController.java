@@ -4,6 +4,7 @@ import com.botaniac.accountsservice.configurations.EmailQueue;
 import com.botaniac.accountsservice.dto.LoginDTO;
 import com.botaniac.accountsservice.dto.RegisterDTO;
 import com.botaniac.accountsservice.factories.MailFactory;
+import com.botaniac.accountsservice.factories.MailTemplate;
 import com.botaniac.accountsservice.service.UserService;
 import com.botaniac.accountsservice.service.ValidationHandler;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,6 +13,8 @@ import com.sun.net.httpserver.HttpContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +27,8 @@ import javax.validation.Valid;
 @Slf4j
 @Controller
 public class MVCUserController {
+    @Value("${mytoken.hardcoded.beloved.token}")
+    String accountsToken;
     @Autowired
     private RabbitTemplate rabbitTemplate;
     @Autowired
@@ -40,10 +45,15 @@ public class MVCUserController {
         log.info("Register info submitted. Creating account for user "+newUser.getUsername()+"...");
         if(!result.hasErrors()){
             log.info("No errors found! Creating account");
-           // userService.registerAccount(newUser);
+            userService.registerAccount(newUser);
             ObjectMapper mapper = new ObjectMapper();
+            log.info("Asking the e-mail service to send greeting e-mail with token "+this.accountsToken);
                rabbitTemplate.convertAndSend(EmailQueue.EXCHANGE,EmailQueue.ROUTING_KEY,
-                      MailFactory.sendRegistrationMail(newUser.getEmail(), newUser.getUsername()));
+                       MailFactory.sendRegistrationMail(newUser.getEmail(), newUser.getUsername()),
+                        m -> {
+                           m.getMessageProperties().getHeaders().put("Authorisation", accountsToken);
+                           return m;
+                       });
 
             return "redirect:http://localhost:8420/Login";
         }

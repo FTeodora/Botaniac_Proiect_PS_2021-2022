@@ -1,11 +1,16 @@
 package com.botaniac.forumsservice.controller.rest;
 import com.botaniac.forumsservice.DTO.BrowseDiscussionsDTO;
+import com.botaniac.forumsservice.DTO.ForumPosterDTO;
 import com.botaniac.forumsservice.DTO.MessageDTO;
 import com.botaniac.forumsservice.configurations.RMQConfig;
 import com.botaniac.forumsservice.model.entity.Discussion;
 import com.botaniac.forumsservice.model.enums.ForumSection;
 import com.botaniac.forumsservice.service.DiscussionService;
 import com.botaniac.forumsservice.service.MessageService;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,11 +36,6 @@ public class RestForumController {
     private final MessageService messageService=new MessageService();
     @Autowired
     private RabbitTemplate rabbitTemplate;
-    @RequestMapping(value = "/forums/rabbitTest")
-    public String vibeCheck(){
-        rabbitTemplate.convertAndSend(RMQConfig.topicExchangeName,RMQConfig.ROUTING_KEY,"Vibe Check");
-        return "Your vibe has been checked";
-    }
     @RequestMapping(value = "/forums/forumsSections",method = RequestMethod.GET)
     public String showSections(){
         log.info("Fetching the forum sections...");
@@ -63,7 +64,19 @@ public class RestForumController {
             return new ArrayList<>();
         }
         List<MessageDTO> res=messageService.getDiscussionMessages(parent,page-1);
-        rabbitTemplate.convertAndSend(RMQConfig.topicExchangeName,RMQConfig.ROUTING_KEY,res.stream().map(m->m.getPoster()).collect(Collectors.toList()));
+        String rez=(String)rabbitTemplate.convertSendAndReceive(RMQConfig.topicExchangeName,RMQConfig.ROUTING_KEY,
+                res.stream().map(MessageDTO::getPoster).collect(Collectors.toSet()));
+        try {
+            ObjectMapper objectMapper=new ObjectMapper();
+            objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+            HashMap<String,ForumPosterDTO> myObjects = objectMapper.readValue(rez, new TypeReference<>() {
+            });
+            res.forEach(x->x.setPosterName(myObjects.get(x.getPoster()).getUsername()));
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         log.info("Fetched "+res.size()+" results");
         return res;
     }
