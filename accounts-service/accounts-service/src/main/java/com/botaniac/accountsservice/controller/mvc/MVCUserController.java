@@ -76,4 +76,10 @@ public class MVCUserController {
         else
             return "/Login";
     }
+    @GetMapping("/accounts/Profile")
+    public ModelAndView viewProfile(@RequestParam String user){
+        ModelAndView mav=new ModelAndView();
+        mav.addObject("siteUser",userService.getProfile(user));
+        return mav;
+    }
 }

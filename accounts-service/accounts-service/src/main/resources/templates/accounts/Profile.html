@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://localhost:8419/css/styles.css" />
+    <link rel="stylesheet" href="http://localhost:8421/css/style.css" />
+    <title th:text="${siteUser.username}"></title>
+</head>
+<body >
+<div id="app">
+    <v-app>
+        <v-main>
+            <site-navbar></site-navbar>
+            <div >
+                <h1 th:text="${siteUser.username}"></h1>
+                <h2>This is your profile page. Here you can see your personal data, change your picture or share your plants</h2>
+                <div class="form-div">
+                    <form method="post" class="form-zone" action="#" th:action="@{/accounts/Profile}" th:object="${siteUser}" >
+                        <label for="username" class="form-label">Username: </label><br>
+                        <input type="label" name="username" th:field="*{username}"  th:value="${siteUser.username}"  class="form-field"  readonly> <br>
+                        <label for="userRole" class="form-label">As a fellow </label><br>
+                        <input type="label" name="userRole" th:field="*{userRole}"  th:value="${siteUser.userRole}"  class="form-field"  readonly> <br>
+                        <label for="e-mail" class="form-label">Which can be contacted at:</label><br>
+                        <input type="label" name="e-mail" th:field="*{email}"   th:value="${siteUser.email}" class="form-field" readonly><br>
+                        <label for="birthday" class="form-label">Born on</label><br>
+                        <input type="date" name="birthday" th:value="${siteUser.birthday}" th:field="*{birthday}"  class="form-field"><br>
+                        <div  th:if="${#fields.hasErrors('${siteUser.birthday}')}" th:errors="*{birthday}" class="error-label"></div>
+                       <input type="submit" value="Change settings" class="form-button">
+                    </form>
+                </div>
+            </div>
+        </v-main>
+    </v-app>
+</div>
+<script src="https://unpkg.com/http-vue-loader"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script>
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      components: {
+          'site-navbar': httpVueLoader('/components/site-navbar.vue')
+        }
+    })
+  </script>
+</body>
+</html>

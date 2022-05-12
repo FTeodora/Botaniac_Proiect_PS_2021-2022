@@ -15,7 +15,7 @@
     <v-app>
         <v-main>
             <site-navbar></site-navbar>
-            <div>
+            <div class="margin:30px;">
                 <i><h1 th:text="${plant.scientificName}"></h1></i>
                 <h2 th:text="${plant.commonName}"></h2>
                 <p th:text="${plant.description}"></p>
@@ -30,7 +30,7 @@
                         <option value="TXT">txt/plain text</option>
                         <option value="PDF">pdf</option>
                     </select>
-                <input class="form-button" type="submit">Download txt</input></form>
+                <input class="form-button" type="submit" value="Download file"></input></form>
             </div>
         </v-main>
 

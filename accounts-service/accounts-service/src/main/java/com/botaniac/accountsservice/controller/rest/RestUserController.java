@@ -1,13 +1,12 @@
 package com.botaniac.accountsservice.controller.rest;
 
 import com.botaniac.accountsservice.dto.ForumPosterDTO;
+import com.botaniac.accountsservice.dto.ProfileDTO;
 import com.botaniac.accountsservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -29,5 +28,12 @@ public class RestUserController {
             log.info("Found user: "+poster.getUsername());
         }
         return ResponseEntity.ok(poster);
+    }
+    @PostMapping("/accounts/Profile")
+    public ResponseEntity<String> editUser(@ModelAttribute("siteUser")ProfileDTO siteUser){
+        log.info(siteUser.getUsername()+" attempting to change their settings...");
+        if(userService.updateProfile(siteUser))
+            return ResponseEntity.ok("Your information has been updated! Refresh to see changes");
+        return ResponseEntity.badRequest().body("There has been an error processing your information");
     }
 }

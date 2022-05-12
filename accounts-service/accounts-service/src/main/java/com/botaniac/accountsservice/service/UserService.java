@@ -1,7 +1,9 @@
 package com.botaniac.accountsservice.service;
 
+import com.botaniac.accountsservice.components.ProfileMapper;
 import com.botaniac.accountsservice.dto.ForumPosterDTO;
 import com.botaniac.accountsservice.dto.LoginDTO;
+import com.botaniac.accountsservice.dto.ProfileDTO;
 import com.botaniac.accountsservice.dto.RegisterDTO;
 import com.botaniac.accountsservice.factories.UserFactory;
 import com.botaniac.accountsservice.model.entity.User;
@@ -17,9 +19,24 @@ public class UserService {
     @Autowired
     UserRepo userRepo;
     @Autowired
+    ProfileMapper mapper;
+    @Autowired
     private ModelMapper modelMapper=new ModelMapper();
     private ValidationHandler validationHandler=new ValidationHandler();
+    public boolean updateProfile(ProfileDTO dto) {
+        User user= userRepo.findByUsername(dto.username);
 
+        mapper.updateUserFromDTO(dto, user);
+        user.setBirthday(dto.bringBirthday());
+        log.info("Birthday: "+user.getBirthday()+" "+user.getUsername());
+        try{
+            userRepo.save(user);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
     /**
      * Searches for the user with the given username and password
      * @param credentials
@@ -53,5 +70,8 @@ public class UserService {
         else{
             userRepo.save(newAccount);
         }
+    }
+    public ProfileDTO getProfile(String username){
+        return modelMapper.map(userRepo.findByUsername(username),ProfileDTO.class);
     }
 }

@@ -6,9 +6,11 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class PlantPDFGenerator implements FileGenerator<PlantPageDTO>{
     @Override
@@ -23,17 +25,17 @@ public class PlantPDFGenerator implements FileGenerator<PlantPageDTO>{
             contentStream.newLineAtOffset(50, 700);
             contentStream.setFont(font, 18);
             contentStream.showText(object.getCommonName());
-            contentStream.newLineAtOffset(50, 680);
+            contentStream.newLineAtOffset(0, -20);
             contentStream.showText(object.getScientificName());
-            contentStream.newLineAtOffset(50, 660);
+            contentStream.newLineAtOffset(0, -20);
             contentStream.showText(object.getType().toString());
-            contentStream.newLineAtOffset(50, 640);
+            contentStream.newLineAtOffset(0, -20);
             contentStream.showText("Native continent:"+object.getNativeContinent());
-            contentStream.endText();
+            contentStream.newLineAtOffset(0, -20);
             contentStream.close();
-            document.save(object.getCommonName()+".pdf");
+            document.save("./src/main/resources/"+object.getCommonName()+".pdf");
             document.close();
-            File f=new File(object.getCommonName()+".pdf");
+            File f=new File("./src/main/resources/"+object.getCommonName()+".pdf");
             return f;
         } catch (IOException exception) {
             exception.printStackTrace();

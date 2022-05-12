@@ -24,6 +24,7 @@
                     <div v-if="allPages>0">
                         <v-card-text class="discussion-div"
                                      outlined
+                                     tile
                                      v-for="item in items">
                             <a :href="`/forums/discussion?discussionID=${item.id}`">
                                 {{ item.title }}
